@@ -1,9 +1,12 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import Header from "../components/Header";
 import Banner from "../components/Banner";
 import requests from "../utils/requests";
 import {Movie} from "../typings";
 import Row from "../components/Row";
+import useAuth from "../hooks/useAuth";
+import {useState} from "react";
+import Modal from "../components/Modal";
 
 
 interface Props {
@@ -28,7 +31,13 @@ const Home = ({
     horrorMovies,
   }: Props) => {
 
-  return (
+    const { logout, loading } = useAuth()
+    // const showModal = useRecoilValue()
+    const [showModal, setShowModal] = useState(false)
+
+    if(loading) return <div>Loading...</div>
+
+    return (
     <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
       <Head>
         <title>Home | Netflix</title>
@@ -48,6 +57,7 @@ const Home = ({
               <Row title="Documentaries" movies={documentaries}/>
           </section>
       </main>
+        <Modal />
     </div>
   )
 }
