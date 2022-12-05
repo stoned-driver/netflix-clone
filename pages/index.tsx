@@ -5,8 +5,9 @@ import requests from "../utils/requests";
 import {Movie} from "../typings";
 import Row from "../components/Row";
 import useAuth from "../hooks/useAuth";
-import {useState} from "react";
 import Modal from "../components/Modal";
+import {useRecoilValue} from "recoil";
+import {modalState} from "../atoms/modalAtom";
 
 
 interface Props {
@@ -31,14 +32,14 @@ const Home = ({
     horrorMovies,
   }: Props) => {
 
-    const { logout, loading } = useAuth()
-    // const showModal = useRecoilValue()
-    const [showModal, setShowModal] = useState(false)
+    const { loading } = useAuth()
+    const showModal = useRecoilValue(modalState)
 
     if(loading) return <div>Loading...</div>
 
     return (
-    <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
+    <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh]
+     ${showModal && "!h-screen overflow-hidden"}`}>
       <Head>
         <title>Home | Netflix</title>
         <link rel="icon" href="/favicon.ico" />
